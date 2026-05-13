@@ -10,12 +10,15 @@ interface Forecast {
 
 function App() {
     const [forecasts, setForecasts] = useState<Forecast[]>();
+    const [error, setError] = useState<string>();
 
     useEffect(() => {
         populateWeatherData();
     }, []);
 
-    const contents = forecasts === undefined
+    const contents = error !== undefined
+        ? <p><em>Failed to load weather data: {error}</em></p>
+        : forecasts === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
         : <table className="table table-striped" aria-labelledby="tableLabel">
             <thead>
@@ -47,10 +50,16 @@ function App() {
     );
 
     async function populateWeatherData() {
-        const response = await fetch('/weatherforecast');
-        if (response.ok) {
-            const data = await response.json();
-            setForecasts(data);
+        try {
+            const response = await fetch('/weatherforecast');
+            if (response.ok) {
+                const data = await response.json();
+                setForecasts(data);
+            } else {
+                setError(`${response.status} ${response.statusText}`);
+            }
+        } catch (e) {
+            setError(e instanceof Error ? e.message : String(e));
         }
     }
 }
