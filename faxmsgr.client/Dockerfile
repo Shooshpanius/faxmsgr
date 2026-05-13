@@ -11,10 +11,7 @@ RUN npm ci
 
 # Копирование исходников и сборка через production-конфиг
 COPY . .
-
-# ID счётчика Яндекс.Метрики (если не задан — скрипт метрики не загружается)
-#ARG FAX_C_YANDEX_METRIKA_ID
-#RUN npx vite build --config vite.config.prod.ts
+RUN npm run build
 
 # =============================================================================
 # Stage 2: раздача статики через Nginx
