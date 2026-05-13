@@ -41,7 +41,7 @@ jobs:
             echo "// Номер и дата последнего принятого пулл реквеста"
             echo "export const LAST_PR_NUMBER = ${PR_NUMBER};"
             echo "export const LAST_PR_DATE = '${PR_DATE}';"
-          } > clubtabletracker.client/src/version.ts
+          } > faxmsgr.client/src/version.ts
 
       - name: Коммит и публикация изменений
         env:
@@ -49,7 +49,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add clubtabletracker.client/src/version.ts
+          git add faxmsgr.client/src/version.ts
           git diff --cached --quiet || git commit -m "chore: обновление версии — PR #${PR_NUMBER}"
           git push
 
