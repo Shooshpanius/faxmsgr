@@ -10,12 +10,15 @@ interface Forecast {
 
 function App() {
     const [forecasts, setForecasts] = useState<Forecast[]>();
+    const [error, setError] = useState<string>();
 
     useEffect(() => {
         populateWeatherData();
     }, []);
 
-    const contents = forecasts === undefined
+    const contents = error !== undefined
+        ? <p><em>Unable to connect to the server. Please try again later.</em></p>
+        : forecasts === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
         : <table className="table table-striped" aria-labelledby="tableLabel">
             <thead>
@@ -47,10 +50,18 @@ function App() {
     );
 
     async function populateWeatherData() {
-        const response = await fetch('/weatherforecast');
-        if (response.ok) {
-            const data = await response.json();
-            setForecasts(data);
+        try {
+            const response = await fetch('/weatherforecast');
+            if (response.ok) {
+                const data = await response.json();
+                setForecasts(data);
+            } else {
+                console.error('Weather forecast request failed:', response.status, response.statusText);
+                setError(`${response.status} ${response.statusText}`);
+            }
+        } catch (e) {
+            console.error('Failed to fetch weather data:', e instanceof Error ? e.message : String(e));
+            setError('network error');
         }
     }
 }
