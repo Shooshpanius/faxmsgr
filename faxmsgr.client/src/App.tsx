@@ -17,7 +17,7 @@ function App() {
     }, []);
 
     const contents = error !== undefined
-        ? <p><em>Failed to load weather data: {error}</em></p>
+        ? <p><em>Unable to connect to the server. Please try again later.</em></p>
         : forecasts === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
         : <table className="table table-striped" aria-labelledby="tableLabel">
@@ -56,10 +56,12 @@ function App() {
                 const data = await response.json();
                 setForecasts(data);
             } else {
+                console.error('Weather forecast request failed:', response.status, response.statusText);
                 setError(`${response.status} ${response.statusText}`);
             }
         } catch (e) {
-            setError(e instanceof Error ? e.message : String(e));
+            console.error('Failed to fetch weather data:', e instanceof Error ? e.message : String(e));
+            setError('network error');
         }
     }
 }
