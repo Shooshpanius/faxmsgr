@@ -16,6 +16,11 @@ docker-compose up --build
 
 Сервер будет доступен на `http://localhost:8080`.
 
+В режиме разработки `docker-compose` автоматически подхватывает `docker-compose.override.yml`,
+который пробрасывает порты внутренних сервисов на хост (PostgreSQL, Redis, MinIO) —
+удобно для подключения из DBeaver, redis-cli, MinIO Console и т.д.
+В production `docker-compose.override.yml` не используется.
+
 ## Запуск в режиме разработки
 
 ```bash
@@ -27,16 +32,16 @@ go run ./cmd/server
 
 | Переменная | Описание | По умолчанию |
 |---|---|---|
-| `DATABASE_URL` | DSN PostgreSQL (основная БД) | — |
-| `ARCHIVE_DATABASE_URL` | DSN PostgreSQL (архив, Закон Яровой) | — |
-| `REDIS_ADDR` | Адрес Redis (`host:port`) | `localhost:6379` |
-| `REDIS_PASSWORD` | Пароль Redis | — |
-| `JWT_SECRET` | Секрет для подписи JWT-токенов | — |
-| `SERVER_ADDR` | Адрес и порт сервера | `:8080` |
-| `S3_ENDPOINT` | Адрес MinIO/S3 | — |
-| `S3_ACCESS_KEY` | Access Key для S3 | — |
-| `S3_SECRET_KEY` | Secret Key для S3 | — |
-| `S3_BUCKET` | Имя бакета для медиафайлов | — |
+| `FAX_DATABASE_URL` | DSN PostgreSQL (основная БД) | — |
+| `FAX_ARCHIVE_DATABASE_URL` | DSN PostgreSQL (архив, Закон Яровой) | — |
+| `FAX_REDIS_ADDR` | Адрес Redis (`host:port`) | `localhost:6379` |
+| `FAX_REDIS_PASSWORD` | Пароль Redis | — |
+| `FAX_JWT_SECRET` | Секрет для подписи JWT-токенов | — |
+| `FAX_SERVER_ADDR` | Адрес и порт сервера | `:8080` |
+| `FAX_S3_ENDPOINT` | Адрес MinIO/S3 | — |
+| `FAX_S3_ACCESS_KEY` | Access Key для S3 | — |
+| `FAX_S3_SECRET_KEY` | Secret Key для S3 | — |
+| `FAX_S3_BUCKET` | Имя бакета для медиафайлов | — |
 
 ## Миграции БД
 
