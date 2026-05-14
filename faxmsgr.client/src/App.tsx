@@ -1,7 +1,28 @@
+import { useMemo } from 'react';
 import './App.css';
 import { LAST_PR_DATE, LAST_PR_NUMBER } from './version';
 
+const ALL_TAGLINES = [
+    'Всё как по факсу: чётко, по делу и прямо в руки.',
+    'Раньше факс был вершиной технологий. Мы пошли дальше.',
+    'FAX — потому что ваши слова заслуживают мгновенной доставки.',
+    'Никаких помех, никакого шипения. Только чистый сигнал.',
+    'Старый факс слал листы бумаги. Мы шлём что угодно.',
+    'Связь без посредников — как факс, только без бумаги.',
+    'Пока другие ищут нужный чат, ваш FAX уже доставлен.',
+    'Технология изменилась. Надёжность — нет.',
+    'Получить сообщение быстрее, чем распечатать — легко.',
+    'ФАКСт: лучший способ связаться — этот.',
+];
+
+function pickRandom<T>(arr: T[], count: number): T[] {
+    const shuffled = [...arr].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count);
+}
+
 function App() {
+    const taglines = useMemo(() => pickRandom(ALL_TAGLINES, 3), []);
+
     return (
         <div className="landing">
             <header className="landing-header">
@@ -26,9 +47,9 @@ function App() {
                 </section>
 
                 <section className="taglines">
-                    <blockquote>"Отправь по FAX — дойдёт быстрее телеграммы."</blockquote>
-                    <blockquote>"Всё как по факсу: чётко, по делу и прямо в руки."</blockquote>
-                    <blockquote>"Раньше факс был вершиной технологий. Мы пошли дальше."</blockquote>
+                    {taglines.map((line) => (
+                        <blockquote key={line}>"{line}"</blockquote>
+                    ))}
                 </section>
 
                 <section className="features" id="features">
