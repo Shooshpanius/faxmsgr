@@ -6,7 +6,7 @@
 
 | Папка | Описание |
 |---|---|
-| `faxmsgr.Server/` | Серверная часть — ASP.NET Core 10 Web API + SignalR |
+| `faxmsgr.Server/` | Серверная часть — Go 1.24, REST API + WebSocket, PostgreSQL, Redis |
 | `faxmsgr.client/` | Веб-клиент — React 19, TypeScript, Vite |
 | `faxmsgr.FlutterMobile/` | Мобильное приложение — Flutter |
 
@@ -16,10 +16,10 @@
 
 ```bash
 cd faxmsgr.Server
-dotnet run
+docker-compose up --build
 ```
 
-Веб-клиент запускается автоматически через SpaProxy на `https://localhost:59551`.
+Сервер будет доступен на `http://localhost:8080`.
 
 ### Мобильное приложение
 

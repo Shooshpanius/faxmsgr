@@ -8,7 +8,7 @@
 - Обмен сообщениями в реальном времени
 - Веб-интерфейс (React + TypeScript)
 - Мобильное приложение (Flutter)
-- Серверная часть (ASP.NET Core 10, REST API + WebSocket/SignalR)
+- Серверная часть (Go 1.24, REST API + WebSocket)
 - Хранение данных — PostgreSQL
 
 ---
@@ -17,7 +17,7 @@
 
 ```
 faxmsgr/
-├── faxmsgr.Server/          # Серверная часть — ASP.NET Core 10 Web API
+├── faxmsgr.Server/          # Серверная часть — Go 1.24, REST API + WebSocket
 ├── faxmsgr.client/          # Веб-клиент — React 19, TypeScript, Vite
 └── faxmsgr.FlutterMobile/   # Мобильное приложение — Flutter
 ```
@@ -29,8 +29,8 @@ faxmsgr/
 ### Рекомендуемые варианты
 
 **Вариант A — Монолит с модульной структурой (рекомендуется для старта)**
-- Единый ASP.NET Core сервер обслуживает и REST API, и WebSocket (SignalR)
-- Веб-клиент собирается как SPA и раздаётся сервером через SpaProxy (dev) / Nginx (prod)
+- Единый Go-сервер обслуживает и REST API, и WebSocket
+- Веб-клиент собирается как SPA и раздаётся через Nginx (prod) или проксируется (dev)
 - Flutter-приложение обращается к тому же API
 - PostgreSQL как единственная СУБД
 
@@ -64,7 +64,7 @@ faxmsgr/
 ## База данных
 
 - СУБД: **PostgreSQL**
-- Миграции: Entity Framework Core (`dotnet ef migrations`)
+- Миграции: [goose](https://github.com/pressly/goose) (`goose -dir migrations postgres "$DATABASE_URL" up`)
 - Ключевые сущности (предварительно):
   - `users` — пользователи
   - `invites` — инвайт-коды (код, создатель, срок, использован)
@@ -78,11 +78,13 @@ faxmsgr/
 
 | Слой | Технология |
 |---|---|
-| Сервер | ASP.NET Core 10, C# |
+| Сервер | Go 1.24 |
 | Веб-клиент | React 19, TypeScript, Vite |
 | Мобильное | Flutter (Dart) |
-| БД | PostgreSQL + EF Core |
-| Real-time | SignalR (WebSocket) |
+| БД | PostgreSQL + goose (миграции) |
+| Real-time | WebSocket (gorilla/websocket) |
+| Кэш / сессии | Redis |
+| Медиафайлы | MinIO (S3-совместимое хранилище) |
 | Контейнеры | Docker (Dockerfile есть в каждом проекте) |
 
 ---
@@ -110,5 +112,5 @@ faxmsgr/
 - **Комментарии, документация и обсуждение архитектуры** — на **русском языке**
 - Код (имена переменных, методов, классов) — на **английском языке**
 - REST API следует конвенциям RESTful: существительные во множественном числе, HTTP-методы по назначению
-- Ошибки возвращаются в формате `ProblemDetails` (RFC 7807)
-- Секреты и строки подключения — только через переменные окружения или `dotnet user-secrets`, не в коде
+- Ошибки возвращаются в формате JSON: `{"error": "описание"}`
+- Секреты и строки подключения — только через переменные окружения или `.env`-файл (не в коде)

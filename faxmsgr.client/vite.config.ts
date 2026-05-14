@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 import plugin from '@vitejs/plugin-react';
 import { env } from 'process';
 
-const target = env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'http://localhost:5166';
+const target = env.VITE_API_URL ?? 'http://localhost:8080';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -16,11 +16,13 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
+            // Проксирование API и WebSocket на Go-сервер в dev-режиме
+            '^/(auth|users|chats|ws)(/|$)': {
                 target,
-                secure: false
+                secure: false,
+                ws: true,
             }
         },
-        port: parseInt(env.DEV_SERVER_PORT || '59551'),
+        port: parseInt(env.DEV_SERVER_PORT || '5173'),
     }
 })
