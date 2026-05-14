@@ -3,9 +3,6 @@
 .env.*
 *.env
 
-# Документация
-*.md
-
 # IDE и OS
 .vscode/
 .idea/
