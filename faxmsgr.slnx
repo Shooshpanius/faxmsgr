@@ -1,7 +1,0 @@
-<Solution>
-  <Project Path="faxmsgr.client/faxmsgr.client.esproj">
-    <Build />
-    <Deploy />
-  </Project>
-  <Project Path="faxmsgr.Server/faxmsgr.Server.csproj" />
-</Solution>
