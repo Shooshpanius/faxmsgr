@@ -15,6 +15,7 @@ import (
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
 	"go.uber.org/zap"
 
+	"faxmsgr/server/internal/archive"
 	"faxmsgr/server/internal/auth"
 	"faxmsgr/server/internal/chat"
 	"faxmsgr/server/internal/middleware"
@@ -58,6 +59,9 @@ func main() {
 	// WebSocket-хаб
 	hub := ws.NewHub(logger)
 	go hub.Run()
+
+	// Сервис архивирования (Закон Яровой)
+	_ = archive.NewService(archivePool, logger)
 
 	// Сервисы
 	authSvc := auth.NewService(pool, rdb, jwtSecret, logger)
@@ -114,7 +118,6 @@ func main() {
 	if err := srv.Shutdown(ctx); err != nil {
 		logger.Error("server forced to shutdown", zap.Error(err))
 	}
-	_ = archivePool
 }
 
 // mustEnv возвращает значение переменной окружения или завершает процесс.
