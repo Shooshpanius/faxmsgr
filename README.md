@@ -15,11 +15,14 @@
 ### Сервер + веб-клиент
 
 ```bash
-cd faxmsgr.Server
+# Из корня репозитория
 docker-compose up --build
 ```
 
-Сервер будет доступен на `http://localhost:8080`.
+Веб-клиент будет доступен на `http://localhost:80`.
+
+> **Примечание:** `faxmsgr.Server/docker-compose.yml` предназначен для локальной разработки — запуск из директории `faxmsgr.Server/`.
+> Корневой `docker-compose.yml` используется для production-деплоя из корня репозитория.
 
 ### Мобильное приложение
 
