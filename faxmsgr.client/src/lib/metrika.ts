@@ -53,7 +53,7 @@ export function initMetrika(options: YmInitOptions = {}): void {
     const stub = function (...args: unknown[]) {
       (stub.a = stub.a || []).push(args);
     } as unknown as YmFunction;
-    stub.l = 1 * new Date().getTime();
+    stub.l = Date.now();
     window.ym = stub;
   }
 
@@ -63,7 +63,7 @@ export function initMetrika(options: YmInitOptions = {}): void {
   script.async = true;
   script.src = 'https://mc.yandex.ru/metrika/tag.js';
   const firstScript = document.getElementsByTagName('script')[0];
-  firstScript.parentNode!.insertBefore(script, firstScript);
+  firstScript.parentNode?.insertBefore(script, firstScript);
 
   // Добавляем noscript-пиксель
   const noscript = document.createElement('noscript');

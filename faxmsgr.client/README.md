@@ -40,7 +40,7 @@ npm run build
 Для отслеживания событий используйте хелперы из `src/lib/metrika.ts`:
 
 ```ts
-import { reachGoal, hitPage } from '@/lib/metrika'
+import { reachGoal, hitPage } from './lib/metrika'
 
 // Отправить цель
 reachGoal('registration')
