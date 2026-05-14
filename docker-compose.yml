@@ -100,6 +100,8 @@ services:
     build:
       context: ./faxmsgr.client
       dockerfile: Dockerfile
+      args:
+        VITE_FAX_YM_COUNTER_ID: ${VITE_FAX_YM_COUNTER_ID:-}
     ports:
       - "80:80"
     networks:
