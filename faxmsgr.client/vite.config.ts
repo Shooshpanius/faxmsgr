@@ -4,7 +4,7 @@ import { defineConfig } from 'vite';
 import plugin from '@vitejs/plugin-react';
 import { env } from 'process';
 
-const target = env.VITE_API_URL ?? 'http://localhost:8080';
+const target = env.VITE_FAX_API_URL ?? 'http://localhost:8080';
 
 // https://vitejs.dev/config/
 export default defineConfig({
