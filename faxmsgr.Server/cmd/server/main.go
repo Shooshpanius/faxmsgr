@@ -34,7 +34,7 @@ func main() {
 	defer logger.Sync() //nolint:errcheck
 
 	// Подключение к PostgreSQL
-	pgDSN := mustEnv("DATABASE_URL")
+	pgDSN := mustEnv("FAX_DATABASE_URL")
 	pool, err := storage.NewPostgres(context.Background(), pgDSN)
 	if err != nil {
 		logger.Fatal("failed to connect to postgres", zap.Error(err))
@@ -42,7 +42,7 @@ func main() {
 	defer pool.Close()
 
 	// Подключение к PostgreSQL (архив — Закон Яровой)
-	archiveDSN := mustEnv("ARCHIVE_DATABASE_URL")
+	archiveDSN := mustEnv("FAX_ARCHIVE_DATABASE_URL")
 	archivePool, err := storage.NewPostgres(context.Background(), archiveDSN)
 	if err != nil {
 		logger.Fatal("failed to connect to archive postgres", zap.Error(err))
@@ -50,11 +50,11 @@ func main() {
 	defer archivePool.Close()
 
 	// Подключение к Redis
-	redisAddr := getEnv("REDIS_ADDR", "localhost:6379")
-	rdb := storage.NewRedis(redisAddr, os.Getenv("REDIS_PASSWORD"), 0)
+	redisAddr := getEnv("FAX_REDIS_ADDR", "localhost:6379")
+	rdb := storage.NewRedis(redisAddr, os.Getenv("FAX_REDIS_PASSWORD"), 0)
 
 	// JWT-секрет
-	jwtSecret := mustEnv("JWT_SECRET")
+	jwtSecret := mustEnv("FAX_JWT_SECRET")
 
 	// WebSocket-хаб
 	hub := ws.NewHub(logger)
@@ -91,7 +91,7 @@ func main() {
 	// WebSocket
 	r.Get("/ws", ws.MakeHandler(hub, jwtSecret, logger))
 
-	addr := getEnv("SERVER_ADDR", ":8080")
+	addr := getEnv("FAX_SERVER_ADDR", ":8080")
 	srv := &http.Server{
 		Addr:         addr,
 		Handler:      r,

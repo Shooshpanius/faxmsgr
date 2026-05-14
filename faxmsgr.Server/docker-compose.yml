@@ -68,16 +68,16 @@ services:
     ports:
       - "8080:8080"
     environment:
-      DATABASE_URL: postgres://faxmsgr:faxmsgr_secret@fax_postgres:5432/faxmsgr
-      ARCHIVE_DATABASE_URL: postgres://faxmsgr_archive:faxmsgr_archive_secret@fax_postgres_archive:5432/faxmsgr_archive
-      REDIS_ADDR: fax_redis:6379
-      REDIS_PASSWORD: redis_secret
-      JWT_SECRET: change_me_in_production
-      SERVER_ADDR: :8080
-      S3_ENDPOINT: fax_minio:9000
-      S3_ACCESS_KEY: minio_admin
-      S3_SECRET_KEY: minio_secret
-      S3_BUCKET: faxmsgr-media
+      FAX_DATABASE_URL: postgres://faxmsgr:faxmsgr_secret@fax_postgres:5432/faxmsgr
+      FAX_ARCHIVE_DATABASE_URL: postgres://faxmsgr_archive:faxmsgr_archive_secret@fax_postgres_archive:5432/faxmsgr_archive
+      FAX_REDIS_ADDR: fax_redis:6379
+      FAX_REDIS_PASSWORD: redis_secret
+      FAX_JWT_SECRET: change_me_in_production
+      FAX_SERVER_ADDR: :8080
+      FAX_S3_ENDPOINT: fax_minio:9000
+      FAX_S3_ACCESS_KEY: minio_admin
+      FAX_S3_SECRET_KEY: minio_secret
+      FAX_S3_BUCKET: faxmsgr-media
     depends_on:
       fax_postgres:
         condition: service_healthy
