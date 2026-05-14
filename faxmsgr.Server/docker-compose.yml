@@ -3,6 +3,7 @@ version: "3.9"
 services:
   # Основная база данных
   postgres:
+    container_name: fax_postgres
     image: postgres:16-alpine
     environment:
       POSTGRES_DB: faxmsgr
@@ -20,6 +21,7 @@ services:
 
   # Архивная база данных (Закон Яровой)
   postgres_archive:
+    container_name: fax_postgres_archive
     image: postgres:16-alpine
     environment:
       POSTGRES_DB: faxmsgr_archive
@@ -37,6 +39,7 @@ services:
 
   # Redis для сессий, OTP и статусов
   redis:
+    container_name: fax_redis
     image: redis:7-alpine
     command: redis-server --requirepass redis_secret
     volumes:
@@ -46,6 +49,7 @@ services:
 
   # MinIO — S3-совместимое хранилище медиафайлов
   minio:
+    container_name: fax_minio
     image: minio/minio:latest
     command: server /data --console-address ":9001"
     environment:
@@ -59,6 +63,7 @@ services:
 
   # Go-сервер
   server:
+    container_name: fax_server
     build: .
     ports:
       - "8080:8080"
