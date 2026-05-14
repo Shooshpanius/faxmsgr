@@ -248,7 +248,7 @@
 
 .status-hint {
     font-style: italic;
-    font-size: 14px !important;
+    font-size: 14px;
     opacity: 0.75;
 }
 
