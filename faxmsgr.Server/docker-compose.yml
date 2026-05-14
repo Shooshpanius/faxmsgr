@@ -64,12 +64,10 @@ services:
     networks:
       - fax_net
 
-  # Go-сервер
+  # Go-сервер (изолирован внутри сети — доступен только через fax_client/Nginx)
   fax_server:
     container_name: fax_server
     build: .
-    ports:
-      - "8080:8080"
     environment:
       FAX_DATABASE_URL: postgres://faxmsgr:faxmsgr_secret@fax_postgres:5432/faxmsgr
       FAX_ARCHIVE_DATABASE_URL: postgres://faxmsgr_archive:faxmsgr_archive_secret@fax_postgres_archive:5432/faxmsgr_archive
@@ -90,6 +88,17 @@ services:
         condition: service_healthy
       fax_redis:
         condition: service_started
+
+  # Веб-клиент (Nginx + React SPA) — единственная точка входа извне
+  fax_client:
+    container_name: fax_client
+    build: ../faxmsgr.client
+    ports:
+      - "80:80"
+    networks:
+      - fax_net
+    depends_on:
+      - fax_server
 
 volumes:
   postgres_data:

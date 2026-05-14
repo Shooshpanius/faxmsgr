@@ -21,3 +21,8 @@ services:
     ports:
       - "9000:9000"  # S3 API
       - "9001:9001"  # Web Console
+
+  # Прямой доступ к API в обход Nginx — для тестирования через curl/Postman
+  fax_server:
+    ports:
+      - "8080:8080"
