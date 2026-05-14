@@ -1,0 +1,33 @@
+# Переменные окружения — не должны попадать в образ
+.env
+.env.*
+*.env
+
+# Документация
+*.md
+
+# IDE и OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Артефакты сборки
+server
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+coverage.txt
+coverage.html
+
+# Вендоринг (при использовании vendor-директории)
+vendor/
+
+# Docker Compose файлы (не нужны внутри образа)
+docker-compose*.yml
