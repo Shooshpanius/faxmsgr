@@ -36,14 +36,14 @@ declare global {
   }
 }
 
-const COUNTER_ID = import.meta.env.VITE_YM_COUNTER_ID
-  ? Number(import.meta.env.VITE_YM_COUNTER_ID)
+const COUNTER_ID = import.meta.env.VITE_FAX_YM_COUNTER_ID
+  ? Number(import.meta.env.VITE_FAX_YM_COUNTER_ID)
   : null;
 
 /**
  * Инициализирует счётчик Яндекс Метрики.
  * Вызывается один раз при запуске приложения.
- * Если переменная окружения VITE_YM_COUNTER_ID не задана — ничего не делает.
+ * Если переменная окружения VITE_FAX_YM_COUNTER_ID не задана — ничего не делает.
  */
 export function initMetrika(options: YmInitOptions = {}): void {
   if (!COUNTER_ID) return;
